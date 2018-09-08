@@ -134,7 +134,7 @@ export default class App extends React.Component {
         }
         //city validate
         console.log(typeof this.state.city);
-        if (this.state.city === 0) {
+        if (Number(this.state.city) === 0) {
           errors.city = "Chose your city"
         }
         break;
