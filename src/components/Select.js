@@ -1,9 +1,9 @@
 import React from 'react'
 
 const Select = (props) => {
-  const {id, name, value, options, onChange} = props;
+  const {id, name, value, options, onChange, error} = props;
 
-  console.log(typeof options);
+  console.log(options);
 
   const getOptionItems = (items) => items.map(item => (
     <option
@@ -16,7 +16,7 @@ const Select = (props) => {
 
   return (
     <div className="form-group">
-      <label htmlFor="country">Country</label>
+      <label htmlFor={id}>Country</label>
       <select
         className="form-control"
         id={id}
@@ -25,6 +25,7 @@ const Select = (props) => {
         onChange={onChange}>
         {getOptionItems(options)}
       </select>
+      {error ? <div className="invalid-feedback">{error}</div> : ''}
     </div>
   )
 };

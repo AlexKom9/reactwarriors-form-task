@@ -1,5 +1,5 @@
 body {
-  background: #fdfdfd; 
+  background: #fdfdfd;
 }
 
 .form-container {
@@ -7,9 +7,47 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 460px; 
+  width: 460px;
 }
 
 .invalid-feedback {
-  display: block; 
+  display: block;
+}
+
+.steps {
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+	position: relative;
+
+}
+.steps::before {
+	content: '';
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 3px;
+	background-color: gray;
+	top: 50%;
+	transform: translateY(-50%);
+	left: 0;
+	z-index: -1;
+
+}
+.step {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	background-color: #f4f4f4;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 30px;
+	font-weight: 500;
+	color: gray;
+	border: 4px solid #fff;
+}
+
+.step.active {
+	border-color: gray;
 }
