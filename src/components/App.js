@@ -37,7 +37,6 @@ const initialState = {
 export default class App extends React.Component {
 
 
-
   constructor() {
     super();
     this.state = {...initialState};
@@ -108,7 +107,9 @@ export default class App extends React.Component {
         if (this.state.password.length < 5) {
           errors.password = "password must be at least 5 symbols"
         }
-        if (this.state.password !== this.state.repeatPassword) {
+        if (this.state.repeatPassword.length === 0) {
+          errors.repeatPassword = "repeat password"
+        } else if (this.state.password !== this.state.repeatPassword) {
           errors.repeatPassword = "Password must be the same"
         }
         if (!this.state.gender) {
@@ -324,7 +325,7 @@ export default class App extends React.Component {
                 <div className="custom-file">
                   <input
                     type="file"
-                    className="custom-file-input"
+                    className={"custom-file-input " + (errors.avatar ? 'is-invalid': '')}
                     id="avatar"
                     onChange={this.onChangeAvatar}
                   />

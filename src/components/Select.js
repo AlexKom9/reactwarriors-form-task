@@ -18,7 +18,7 @@ const Select = (props) => {
     <div className="form-group">
       <label htmlFor={id}>Country</label>
       <select
-        className="form-control"
+        className={"form-control " + (error ? 'is-invalid': '')}
         id={id}
         name={name}
         value={value}
