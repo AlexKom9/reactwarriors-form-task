@@ -5,38 +5,42 @@ import countries from '../data/countries'
 import cities from '../data/cities'
 
 
+const initialState = {
+  activeStep: 1,
+  firstName: "",
+  lastName: "",
+  password: "",
+  repeatPassword: "",
+  gender: null,
+  email: "",
+  mobile: "",
+  country: 1,
+  countryCities: [],
+  city: 0,
+  avatar: false,
+  avatarName: false,
+  avatarImg: null,
+  errors: {
+    firstName: false,
+    lastName: false,
+    password: false,
+    repeatPasword: false,
+    gender: false,
+    email: false,
+    mobile: false,
+    country: false,
+    city: false,
+    avatar: false,
+  }
+};
+
 export default class App extends React.Component {
+
+
+
   constructor() {
     super();
-
-    this.state = {
-      activeStep: 1,
-      firstName: "",
-      lastName: "",
-      password: "",
-      repeatPassword: "",
-      gender: null,
-      email: "",
-      mobile: "",
-      country: 1,
-      countryCities: [],
-      city: 0,
-      avatar: false,
-      avatarName: false,
-      avatarImg: null,
-      errors: {
-        firstName: false,
-        lastName: false,
-        password: false,
-        repeatPasword: false,
-        gender: false,
-        email: false,
-        mobile: false,
-        country: false,
-        city: false,
-        avatar: false,
-      }
-    }
+    this.state = {...initialState};
   }
 
   onChange = (event) => {
@@ -48,8 +52,10 @@ export default class App extends React.Component {
 
   onChangeCountry = (event) => {
     console.log(event.target.value);
+    // console.log(event.target);
+
     this.setState({
-      country: event.target.value
+      country: event.target.value,
     })
   };
 
@@ -130,10 +136,12 @@ export default class App extends React.Component {
         if (this.state.city === 0) {
           errors.city = "Chose your city"
         }
+        break;
       case 3:
         if (!this.state.avatar) {
           errors.avatar = "Upload your avatar"
         }
+        break;
     }
 
     this.setState({
@@ -158,9 +166,7 @@ export default class App extends React.Component {
   };
 
   resetData = () => {
-    this.setState({
-      activeStep: 1
-    })
+    this.setState(initialState)
   };
 
 
@@ -179,7 +185,6 @@ export default class App extends React.Component {
       avatarImg,
       errors
     } = this.state;
-
 
     return (
       <div className="form-container card">
@@ -342,16 +347,16 @@ export default class App extends React.Component {
                   </div>
                 </div>
                 <p>
-                  <strong>Email:</strong>
+                  <strong>Email: </strong>
                   <span>{email}</span>
                 </p>
                 <p>
-                  <strong>Mobile:</strong>
+                  <strong>Mobile: </strong>
                   <span>{mobile}</span>
                 </p>
                 <p>
-                  <strong>Location:</strong>
-                  <span>{cities[Number(city)]} {countries[Number(country)]}</span>
+                  <strong>Location: </strong>
+                  <span>{cities[Number(city)].name} {countries[country - 1].name}</span>
                 </p>
               </div>
             )}
