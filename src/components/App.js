@@ -10,25 +10,27 @@ export default class App extends React.Component {
     super();
 
     this.state = {
-      activeStep: 4,
-      firstName: "",
-      lastName: "",
-      password: "",
-      repeatPassword: "",
-      gender: null,
-      email: "",
-      mobile: "",
-      country: 1,
-      countryCities: [],
-      city: 0,
-      avatar: false,
-      avatarName: false,
-      avatarImg: null,
+      activeStep: 1,
+      values: {
+        firstName: "",
+        lastName: "",
+        password: "",
+        repeatPassword: "",
+        gender: null,
+        email: "",
+        mobile: "",
+        country: 1,
+        countryCities: [],
+        city: 0,
+        avatar: false,
+        avatarName: false,
+        avatarImg: null,
+      },
       errors: {
         firstName: false,
         lastName: false,
         password: false,
-        repeatPasword: false,
+        repeatPassword: false,
         gender: false,
         email: false,
         mobile: false,
@@ -41,9 +43,11 @@ export default class App extends React.Component {
 
   onChange = (event) => {
     console.log(event.target.value);
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+    this.setState((prevState) => ({
+      values: {
+        ...prevState.values, [event.target.name]: event.target.value
+      }
+    }))
   };
 
   onChangeCountry = (event) => {
@@ -165,20 +169,7 @@ export default class App extends React.Component {
 
 
   render() {
-    const {
-      activeStep,
-      firstName,
-      lastName,
-      password,
-      repeatPassword,
-      email,
-      mobile,
-      country,
-      city,
-      avatarName,
-      avatarImg,
-      errors
-    } = this.state;
+    const { activeStep, values, errors } = this.state;
 
 
     return (
@@ -207,7 +198,7 @@ export default class App extends React.Component {
                   labelText="Firstname"
                   type="text"
                   placehoder="Enter your Firstname"
-                  value={firstName}
+                  value={values.firstName}
                   error={errors.firstName}
                   onChange={this.onChange}
                 />
@@ -217,7 +208,7 @@ export default class App extends React.Component {
                   labelText="lastName"
                   type="text"
                   placehoder="Enter your Lastname"
-                  value={lastName}
+                  value={values.lastName}
                   error={errors.lastName}
                   onChange={this.onChange}
                 />
@@ -227,7 +218,7 @@ export default class App extends React.Component {
                   labelText="Enter password"
                   type="password"
                   placehoder="Enter your password"
-                  value={password}
+                  value={values.password}
                   error={errors.password}
                   onChange={this.onChange}
                 />
@@ -237,7 +228,7 @@ export default class App extends React.Component {
                   labelText="Repeat password"
                   type="password"
                   placehoder="Repeat password"
-                  value={repeatPassword}
+                  value={values.repeatPassword}
                   error={errors.repeatPassword}
                   onChange={this.onChange}
                 />
@@ -278,7 +269,7 @@ export default class App extends React.Component {
                   labelText="Enter email"
                   type="text"
                   placehoder="Enter your email"
-                  value={email}
+                  value={values.email}
                   error={errors.email}
                   onChange={this.onChange}
                 />
@@ -288,7 +279,7 @@ export default class App extends React.Component {
                   labelText="Enter mobile"
                   type="number"
                   placehoder="Enter your mobile"
-                  value={mobile}
+                  value={values.mobile}
                   error={errors.mobile}
                   onChange={this.onChange}
                 />
@@ -296,9 +287,9 @@ export default class App extends React.Component {
                   id="country"
                   name="country"
                   labelText="Chose country"
-                  value={country}
+                  value={values.country}
                   error={errors.country}
-                  options={countries}
+                  options={values.countries}
                   onChange={this.onChangeCountry}
                 />
 
@@ -306,7 +297,7 @@ export default class App extends React.Component {
                   id="city"
                   name="city"
                   labelText="Chose city"
-                  value={city}
+                  value={values.city}
                   error={errors.city}
                   options={this.getCitiesByCountry()}
                   onChange={this.onChange}
@@ -315,7 +306,7 @@ export default class App extends React.Component {
             )}
             {activeStep === 3 && (
               <div>
-                <img className="w-100 mb-4" src={!avatarImg ? "img/default-avatar.png" : avatarImg} alt="avatar"/>
+                <img className="w-100 mb-4" src={!values.avatarImg ? "img/default-avatar.png" : values.avatarImg} alt="avatar"/>
                 <div className="custom-file">
                   <input
                     type="file"
@@ -323,9 +314,9 @@ export default class App extends React.Component {
                     id="avatar"
                     onChange={this.onChangeAvatar}
                   />
-                  <label className="custom-file-label" htmlFor="avatar">{avatarName ? avatarName : "Choose" +
+                  <label className="custom-file-label" htmlFor="avatar">{values.avatarName ? values.avatarName : "Choose" +
                     " avatar..."}</label>
-                  {this.state.errors.avatar ? <div className="invalid-feedback">{errors.avatar}</div> : ''}
+                  {errors.avatar ? <div className="invalid-feedback">{errors.avatar}</div> : ''}
 
                 </div>
               </div>
@@ -335,23 +326,23 @@ export default class App extends React.Component {
                 {/*<h2>Step four !</h2>*/}
                 <div className="row mb-4">
                   <div className="col-4">
-                    <img className="w-100" src={avatarImg} alt="avatar"/>
+                    <img className="w-100" src={values.avatarImg} alt="avatar"/>
                   </div>
                   <div className="col-8">
-                    <h4>{firstName} {lastName}</h4>
+                    <h4>{values.firstName} {values.lastName}</h4>
                   </div>
                 </div>
                 <p>
                   <strong>Email:</strong>
-                  <span>{email}</span>
+                  <span>{values.email}</span>
                 </p>
                 <p>
                   <strong>Mobile:</strong>
-                  <span>{mobile}</span>
+                  <span>{values.mobile}</span>
                 </p>
                 <p>
                   <strong>Location:</strong>
-                  <span>{cities[Number(city)]} {countries[Number(country)]}</span>
+                  <span>{cities[Number(values.city)]} {countries[Number(values.country)]}</span>
                 </p>
               </div>
             )}
