@@ -1,18 +1,19 @@
 import React from "react";
-import Field from "./Field"
-import Select from './Select'
 //steps import
 import MainInfo from './steps/MainInfo'
 import ContactsInfo from './steps/ContactsInfo'
 import Avatar from './steps/Avatar'
 import Result from './steps/Result'
 
-import countries from '../data/countries'
+import InputCheck from "./InputCheck"
+
+import validate from '../utiils/validate'
+
 import cities from '../data/cities'
 
 
 const initialState = {
-  activeStep: 0,
+  activeStep: 1,
   values: {
     firstName: "",
     lastName: "",
@@ -27,14 +28,30 @@ const initialState = {
     avatar: false,
     avatarName: false,
     avatarImg: null,
+    socials: {
+      facebook: {
+        selected: false,
+        url: null,
+      },
+      instagram: {
+        selected: false,
+        url: null,
+      },
+      linkedIn: {
+        selected: false,
+        url: null,
+      }
+    }
+
+
   },
   steps: [
     {
-      isActive: true,
+      isActive: false,
       isCompleted: false,
     },
     {
-      isActive: false,
+      isActive: true,
       isCompleted: false,
     },
     {
@@ -58,6 +75,11 @@ const initialState = {
     country: false,
     city: false,
     avatar: false,
+    socials: {
+      facebook: false,
+      instagram: false,
+      linkedIn: false,
+    }
   }
 };
 
@@ -137,79 +159,32 @@ export default class App extends React.Component {
   };
 
   nextStep = () => {
-    let errors = {};
-    const {activeStep, values, values: {firstName, lastName, password, repeatPassword, gender, email, mobile, city, avatar}, steps} = this.state;
-    console.log('active step  ---- ', activeStep);
+    const {activeStep, values, steps} = this.state;
 
-    switch (activeStep) {
-      case 0:
-        console.log('case 1')
-        if (!firstName.length) {
-          errors.firstName = "Please enter your First Name"
-        }
-        if (!lastName.length) {
-          errors.lastName = "Please enter your Last Name"
-        }
-        if (password.length < 5) {
-          errors.password = "password must be at least 5 symbols"
-        }
-        if (repeatPassword.length === 0) {
-          errors.repeatPassword = "repeat password"
-        } else if (password !== repeatPassword) {
-          errors.repeatPassword = "Password must be the same"
-        }
-        if (!gender) {
-          errors.gender = "Required"
-        }
-        break;
-
-      case 1:
-        //email validate
-        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        if (!email.length) {
-          errors.email = "Enter you email"
-        } else if (!re.test(email)) {
-          errors.email = "Enter correct email"
-        }
-        // phone validate
-        const phoneRegExp = /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
-        if (mobile.length === 0) {
-          errors.mobile = "Enter mobile"
-        } else if (!mobile.match(phoneRegExp)) {
-          errors.mobile = "Enter correct mobile"
-        }
-        //city validate
-        console.log(typeof this.state.city);
-        if (Number(city) === 0) {
-          errors.city = "Chose your city"
-        }
-        break;
-      case 2:
-        if (!avatar) {
-          errors.avatar = "Upload your avatar"
-        }
-        break;
-    }
+    const errors = validate(values, activeStep);
 
     this.setState({
       errors: errors
     });
 
     if (!Object.values(errors).length && activeStep < 3) {
-      const steps = [...this.state.steps];
 
-      steps[this.state.activeStep] = {
+
+      const newSteps = [...steps];
+
+      newSteps[this.state.activeStep] = {
         isActive: false,
         isCompleted: true,
       };
-      steps[this.state.activeStep + 1] = {
+      newSteps[this.state.activeStep + 1] = {
         isActive: true,
         isCompleted: false,
       };
+      // console.log(newSteps);
 
       this.setState({
         activeStep: this.state.activeStep + 1,
-        steps: steps
+        steps: newSteps
       })
     }
 
@@ -240,8 +215,21 @@ export default class App extends React.Component {
   };
 
 
+  onChangeSocials = (event) => {
+    console.dir(event.target.checked);
+    const newValues = {...this.state.values};
+    newValues['socials'][event.target.name]['selected'] = event.target.checked;
+    this.setState({
+      values: newValues
+    });
+  };
+
+  onChangeSocialUrl = (event) => {
+    console.log(event.target.value);
+  }
+
   render() {
-    const {activeStep, values, errors, steps} = this.state;
+    const {activeStep, values, values: {socials}, errors, steps} = this.state;
 
     return (
       <div className="form-container card">
@@ -261,7 +249,8 @@ export default class App extends React.Component {
             </div>
           </div>
 
-          <div className="mb-4">
+          <div>
+
             {steps[0].isActive && (
               <MainInfo
                 values={values}
@@ -275,7 +264,9 @@ export default class App extends React.Component {
                 errors={errors}
                 onChange={this.onChange}
                 onChangeCountry={this.onChangeCountry}
-                getCitiesByCountry={this.getCitiesByCountry()}/>
+                getCitiesByCountry={this.getCitiesByCountry()}
+                onChangeSocials={this.onChangeSocials}
+                />
             )}
             {steps[2].isActive && (
               <Avatar
@@ -318,12 +309,10 @@ export default class App extends React.Component {
               </div>
             )}
           </div>
-
         </form>
       </div>
-    );
-  }
-  ;
+    )
+  };
 
   componentDidMount() {
     console.log()

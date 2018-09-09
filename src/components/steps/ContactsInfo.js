@@ -1,11 +1,12 @@
 import React from 'react'
 import Field from '../Field'
 import Select from '../Select'
+import InputCheck from '../InputCheck'
 
 import countries from "../../data/countries";
 
 const ContactsInfo = props => {
-  const { values, errors, onChange, onChangeCountry, getCitiesByCountry } = props;
+  const {values, values:{socials}, errors, onChange, onChangeCountry, getCitiesByCountry, onChangeSocials} = props;
 
   console.log(values);
   return (
@@ -30,6 +31,7 @@ const ContactsInfo = props => {
         error={errors.mobile}
         onChange={onChange}
       />
+
       <Select
         id="country"
         name="country"
@@ -48,6 +50,35 @@ const ContactsInfo = props => {
         error={errors.city}
         options={getCitiesByCountry}
         onChange={onChange}
+      />
+
+      <InputCheck
+        isSelected={socials.facebook.selected}
+        name="facebook"
+        id="facebook"
+        checkBoxText="FaceBook"
+        onCheckChange={onChangeSocials}
+        onCheckInputChange={this.onChange}
+        error={errors.socials.facebook}
+      />
+
+      <InputCheck
+        isSelected={socials.instagram.selected}
+        name="instagram"
+        id="instagramm"
+        checkBoxText="Instagram"
+        onCheckChange={onChangeSocials}
+        onCheckInputChange={this.onChange}
+        error={errors.socials.instagram}
+      />
+      <InputCheck
+        isSelected={socials.linkedIn.selected}
+        name="linkedIn"
+        id="linkedIn"
+        checkBoxText="LinkedIn"
+        onCheckChange={onChangeSocials}
+        onCheckInputChange={this.onChange}
+        error={errors.socials.linkedIn}
       />
     </div>
   )
