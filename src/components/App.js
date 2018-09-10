@@ -25,17 +25,17 @@ const initialState = {
     avatar: false,
     avatarName: false,
     avatarImg: null,
+    // facebook: null,
+    // instagram: null,
+    // linkedIn: null
     socials: {
       facebook: {
-        selected: false,
         url: null
       },
       instagram: {
-        selected: false,
         url: null
       },
       linkedIn: {
-        selected: false,
         url: null
       }
     }
@@ -104,31 +104,31 @@ export default class App extends React.Component {
     });
   };
 
-  onChangeAvatar = event => {
-    const file = event.target.files[0];
-    const values = {
-      ...this.state.values,
-      avatar: true,
-      avatarName: file.name
-    };
+  // onChangeAvatar = event => {
+  //   const file = event.target.files[0];
+  //   const values = {
+  //     ...this.state.values,
+  //     avatar: true,
+  //     avatarName: file.name
+  //   };
 
-    this.setState({
-      values: values
-    });
+  //   this.setState({
+  //     values: values
+  //   });
 
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
+  //   let reader = new FileReader();
+  //   reader.readAsDataURL(file);
 
-    reader.onloadend = () => {
-      const values = {
-        ...this.state.values,
-        avatarImg: reader.result
-      };
-      this.setState({
-        values: values
-      });
-    };
-  };
+  //   reader.onloadend = () => {
+  //     const values = {
+  //       ...this.state.values,
+  //       avatarImg: reader.result
+  //     };
+  //     this.setState({
+  //       values: values
+  //     });
+  //   };
+  // };
 
   getCitiesByCountry = () => {
     const { country } = this.state.values;
@@ -199,14 +199,14 @@ export default class App extends React.Component {
     this.setState(initialState);
   };
 
-  onChangeSocials = event => {
-    console.dir(event.target.checked);
-    const newValues = { ...this.state.values };
-    newValues["socials"][event.target.name]["selected"] = event.target.checked;
-    this.setState({
-      values: newValues
-    });
-  };
+  // onChangeSocials = event => {
+  //   console.dir(event.target.checked);
+  //   const newValues = { ...this.state.values };
+  //   newValues["socials"][event.target.name]["selected"] = event.target.checked;
+  //   this.setState({
+  //     values: newValues
+  //   });
+  // };
 
   onChangeSocialUrl = event => {
     console.log(event.target.value);
@@ -289,7 +289,7 @@ export default class App extends React.Component {
               <Avatar
                 values={values}
                 errors={errors}
-                onChangeAvatar={this.onChangeAvatar}
+                onChange={this.onChange}
               />
             )}
             {steps[3].isActive && <Result values={values} />}

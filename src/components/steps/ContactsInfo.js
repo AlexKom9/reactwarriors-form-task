@@ -61,14 +61,38 @@ const ContactsInfo = props => {
         options={getCitiesByCountry}
         onChange={onChange}
       />
-
+      {/*
+      [{
+        isSelected: socials.facebook.selected
+        name: "facebook",
+        id="facebook"
+        checkBoxText="FaceBook"
+        onCheckChange={onChangeSocials}
+        onInputChange={onChangeSocialUrl}
+        error={errors.socials.facebook}
+        value={socials.facebook.url}
+      }].map(input => (
+        <InputCheck
+          {...input}
+        />
+        <InputCheck
+          isSelected={socials.facebook.selected}
+          name="facebook"
+          id="facebook"
+          checkBoxText="FaceBook"
+          onCheckChange={onChangeSocials}
+          onInputChange={onChangeSocialUrl}
+          error={errors.socials.facebook}
+          value={socials.facebook.url}
+      />
+      ))
+      */}
       <InputCheck
         isSelected={socials.facebook.selected}
         name="facebook"
         id="facebook"
         checkBoxText="FaceBook"
-        onCheckChange={onChangeSocials}
-        onInputChange={onChangeSocialUrl}
+        onChange={onChangeSocialUrl}
         error={errors.socials.facebook}
         value={socials.facebook.url}
       />

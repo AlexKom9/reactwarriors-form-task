@@ -1,42 +1,53 @@
-import React from 'react'
+import React from "react";
 
-const InputCheck = function (props) {
+export default class InputCheck extends React.Component {
+  constructor() {
+    super();
 
-  const {isSelected, id, name, checkBoxText, onCheckChange, onInputChange, value} = props;
+    this.state = {
+      isSelected: false
+    };
+  }
 
-  return (
+  handleSelected = event => {
+    this.setState({
+      isSelected: event.target.checked
+    });
+  };
 
-    <div className="mb-4">
-
+  render() {
+    const { id, name, checkBoxText, onChange, value } = this.props;
+    return (
       <div className="mb-4">
-        <div className="custom-control custom-checkbox mb-2">
-          <input
-            type="checkbox"
-            className="custom-control-input"
-            id={id}
-            name={name}
-            onChange={onCheckChange}
-          />
-          <label className="custom-control-label" htmlFor={id}>{checkBoxText}</label>
-        </div>
-
-        {isSelected && (
-          <div className="form-group">
+        <div className="mb-4">
+          <div className="custom-control custom-checkbox mb-2">
             <input
-              name={name}
+              type="checkbox"
+              className="custom-control-input"
               id={id}
-              type="text"
-              className="mb-2 form-control"
-              placeholder="Enter your profile url"
-              onChange={onInputChange}
-              value={value}
+              name={name}
+              onChange={handleSelected}
             />
+            <label className="custom-control-label" htmlFor={id}>
+              {checkBoxText}
+            </label>
           </div>
-        )}
 
+          {this.state.isSelected && (
+            <div className="form-group">
+              <input
+                name={name}
+                id={id}
+                type="text"
+                className="mb-2 form-control"
+                placeholder="Enter your profile url"
+                onChange={onChange}
+                value={value}
+              />
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  )
-};
-
-export default InputCheck
+    );
+  }
+}
