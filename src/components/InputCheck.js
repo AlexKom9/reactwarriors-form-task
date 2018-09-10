@@ -1,8 +1,8 @@
 import React from 'react'
 
-const InputCheck = function(props){
+const InputCheck = function (props) {
 
-  const {isSelected, id, name, checkBoxText, onCheckChange, onCheckInputChange} = props;
+  const {isSelected, id, name, checkBoxText, onCheckChange, onInputChange, value} = props;
 
   return (
 
@@ -15,19 +15,21 @@ const InputCheck = function(props){
             className="custom-control-input"
             id={id}
             name={name}
-            onChange={onCheckChange}/>
+            onChange={onCheckChange}
+          />
           <label className="custom-control-label" htmlFor={id}>{checkBoxText}</label>
         </div>
-        {isSelected && (
 
+        {isSelected && (
           <div className="form-group">
             <input
-              name="facebook"
-              id="facebookUrl"
+              name={name}
+              id={id}
               type="text"
               className="mb-2 form-control"
               placeholder="Enter your profile url"
-              onChange={onCheckInputChange}
+              onChange={onInputChange}
+              value={value}
             />
           </div>
         )}

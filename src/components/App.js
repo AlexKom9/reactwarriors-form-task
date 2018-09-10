@@ -5,7 +5,6 @@ import ContactsInfo from './steps/ContactsInfo'
 import Avatar from './steps/Avatar'
 import Result from './steps/Result'
 
-import InputCheck from "./InputCheck"
 
 import validate from '../utiils/validate'
 
@@ -124,15 +123,15 @@ export default class App extends React.Component {
     this.setState({
       values: values
     });
-    let reader = new FileReader();
-    reader.readAsDataURL(file);
 
-    reader.onloadend = () => {
-      const values = {
-        ...this.state.values,
-        avatarImg: reader.result
-      };
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
 
+      reader.onloadend = () => {
+        const values = {
+          ...this.state.values,
+          avatarImg: reader.result
+        };
       this.setState({
         values: values
       })
@@ -145,8 +144,6 @@ export default class App extends React.Component {
     let countryCitiesFiltered = [{id: 0, name: "Select city"}];
 
     for (let key in cities) {
-      console.log('key -- ', key);
-      console.log('city -- ', cities[key])
       if (Number(cities[key].country) === (Number(country))) {
         const cityData = {
           id: key,
@@ -226,7 +223,13 @@ export default class App extends React.Component {
 
   onChangeSocialUrl = (event) => {
     console.log(event.target.value);
-  }
+    console.log('-----name ---', event.target.name)
+    const newValues = {...this.state.values};
+    newValues['socials'][event.target.name].url = event.target.value;
+    this.setState({
+      values: newValues
+    })
+  };
 
   render() {
     const {activeStep, values, values: {socials}, errors, steps} = this.state;
@@ -266,6 +269,7 @@ export default class App extends React.Component {
                 onChangeCountry={this.onChangeCountry}
                 getCitiesByCountry={this.getCitiesByCountry()}
                 onChangeSocials={this.onChangeSocials}
+                onChangeSocialUrl={this.onChangeSocialUrl}
                 />
             )}
             {steps[2].isActive && (

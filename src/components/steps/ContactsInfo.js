@@ -6,7 +6,7 @@ import InputCheck from '../InputCheck'
 import countries from "../../data/countries";
 
 const ContactsInfo = props => {
-  const {values, values:{socials}, errors, onChange, onChangeCountry, getCitiesByCountry, onChangeSocials} = props;
+  const {values, values:{socials}, errors, onChange, onChangeCountry, getCitiesByCountry, onChangeSocials, onChangeSocialUrl} = props;
 
   console.log(values);
   return (
@@ -58,18 +58,20 @@ const ContactsInfo = props => {
         id="facebook"
         checkBoxText="FaceBook"
         onCheckChange={onChangeSocials}
-        onCheckInputChange={this.onChange}
+        onInputChange={onChangeSocialUrl}
         error={errors.socials.facebook}
+        value={socials.facebook.url}
       />
 
       <InputCheck
         isSelected={socials.instagram.selected}
         name="instagram"
-        id="instagramm"
+        id="instagram"
         checkBoxText="Instagram"
         onCheckChange={onChangeSocials}
-        onCheckInputChange={this.onChange}
+        onInputChange={onChangeSocialUrl}
         error={errors.socials.instagram}
+        value={socials.instagram.url}
       />
       <InputCheck
         isSelected={socials.linkedIn.selected}
@@ -77,8 +79,10 @@ const ContactsInfo = props => {
         id="linkedIn"
         checkBoxText="LinkedIn"
         onCheckChange={onChangeSocials}
-        onCheckInputChange={this.onChange}
+        onInputChange={onChangeSocialUrl}
         error={errors.socials.linkedIn}
+        value={socials.linkedIn.url}
+
       />
     </div>
   )
