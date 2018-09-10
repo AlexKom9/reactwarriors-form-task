@@ -1,15 +1,13 @@
 import React from "react";
 //steps import
-import MainInfo from './steps/MainInfo'
-import ContactsInfo from './steps/ContactsInfo'
-import Avatar from './steps/Avatar'
-import Result from './steps/Result'
+import MainInfo from "./steps/MainInfo";
+import ContactsInfo from "./steps/ContactsInfo";
+import Avatar from "./steps/Avatar";
+import Result from "./steps/Result";
 
+import validate from "../utiils/validate";
 
-import validate from '../utiils/validate'
-
-import cities from '../data/cities'
-
+import cities from "../data/cities";
 
 const initialState = {
   activeStep: 1,
@@ -30,39 +28,35 @@ const initialState = {
     socials: {
       facebook: {
         selected: false,
-        url: null,
+        url: null
       },
       instagram: {
         selected: false,
-        url: null,
+        url: null
       },
       linkedIn: {
         selected: false,
-        url: null,
+        url: null
       }
     }
-
-
   },
   steps: [
     {
       isActive: false,
-      isCompleted: false,
+      isCompleted: false
     },
     {
       isActive: true,
-      isCompleted: false,
+      isCompleted: false
     },
     {
       isActive: false,
-      isCompleted: false,
+      isCompleted: false
     },
     {
       isActive: false
     }
-
-  ]
-  ,
+  ],
   errors: {
     firstName: false,
     lastName: false,
@@ -77,31 +71,29 @@ const initialState = {
     socials: {
       facebook: false,
       instagram: false,
-      linkedIn: false,
+      linkedIn: false
     }
   }
 };
 
 export default class App extends React.Component {
-
-
   constructor() {
     super();
-    this.state = {...initialState};
+    this.state = { ...initialState };
   }
 
-  onChange = (event) => {
+  onChange = event => {
     console.log(event.target.value);
     const values = {
       ...this.state.values,
       [event.target.name]: event.target.value
     };
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       values: values
-    }))
+    }));
   };
 
-  onChangeCountry = (event) => {
+  onChangeCountry = event => {
     console.log(event.target.value);
     const values = {
       ...this.state.values,
@@ -109,10 +101,10 @@ export default class App extends React.Component {
     };
     this.setState({
       values: values
-    })
+    });
   };
 
-  onChangeAvatar = (event) => {
+  onChangeAvatar = event => {
     const file = event.target.files[0];
     const values = {
       ...this.state.values,
@@ -124,39 +116,39 @@ export default class App extends React.Component {
       values: values
     });
 
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
 
-      reader.onloadend = () => {
-        const values = {
-          ...this.state.values,
-          avatarImg: reader.result
-        };
+    reader.onloadend = () => {
+      const values = {
+        ...this.state.values,
+        avatarImg: reader.result
+      };
       this.setState({
         values: values
-      })
+      });
     };
   };
 
   getCitiesByCountry = () => {
-    const {country} = this.state.values;
+    const { country } = this.state.values;
 
-    let countryCitiesFiltered = [{id: 0, name: "Select city"}];
+    let countryCitiesFiltered = [{ id: 0, name: "Select city" }];
 
     for (let key in cities) {
-      if (Number(cities[key].country) === (Number(country))) {
+      if (Number(cities[key].country) === Number(country)) {
         const cityData = {
           id: key,
           name: cities[key].name
         };
-        countryCitiesFiltered.push(cityData)
+        countryCitiesFiltered.push(cityData);
       }
     }
-    return countryCitiesFiltered
+    return countryCitiesFiltered;
   };
 
   nextStep = () => {
-    const {activeStep, values, steps} = this.state;
+    const { activeStep, values, steps } = this.state;
 
     const errors = validate(values, activeStep);
 
@@ -165,100 +157,121 @@ export default class App extends React.Component {
     });
 
     if (!Object.values(errors).length && activeStep < 3) {
-
-
       const newSteps = [...steps];
 
       newSteps[this.state.activeStep] = {
         isActive: false,
-        isCompleted: true,
+        isCompleted: true
       };
       newSteps[this.state.activeStep + 1] = {
         isActive: true,
-        isCompleted: false,
+        isCompleted: false
       };
       // console.log(newSteps);
 
       this.setState({
         activeStep: this.state.activeStep + 1,
         steps: newSteps
-      })
+      });
     }
-
   };
   prevStep = () => {
     if (this.state.activeStep > 0) {
-
       const steps = [...this.state.steps];
 
       steps[this.state.activeStep] = {
         isActive: false,
-        isCompleted: false,
+        isCompleted: false
       };
       steps[this.state.activeStep - 1] = {
         isActive: true,
-        isCompleted: false,
+        isCompleted: false
       };
 
       this.setState({
         activeStep: this.state.activeStep - 1,
         steps: steps
-      })
+      });
     }
   };
 
   resetData = () => {
-    this.setState(initialState)
+    this.setState(initialState);
   };
 
-
-  onChangeSocials = (event) => {
+  onChangeSocials = event => {
     console.dir(event.target.checked);
-    const newValues = {...this.state.values};
-    newValues['socials'][event.target.name]['selected'] = event.target.checked;
+    const newValues = { ...this.state.values };
+    newValues["socials"][event.target.name]["selected"] = event.target.checked;
     this.setState({
       values: newValues
     });
   };
 
-  onChangeSocialUrl = (event) => {
+  onChangeSocialUrl = event => {
     console.log(event.target.value);
-    console.log('-----name ---', event.target.name)
-    const newValues = {...this.state.values};
-    newValues['socials'][event.target.name].url = event.target.value;
+    console.log("-----name ---", event.target.name);
+    const newValues = { ...this.state.values };
+    newValues["socials"][event.target.name].url = event.target.value;
     this.setState({
       values: newValues
-    })
+    });
   };
 
   render() {
-    const {activeStep, values, values: {socials}, errors, steps} = this.state;
+    const {
+      activeStep,
+      values,
+      values: { socials },
+      errors,
+      steps
+    } = this.state;
 
     return (
       <div className="form-container card">
         <form className="form card-body">
           <div className="steps mb-4">
-            <div className={"step " + (steps[0].isActive || steps[0].isCompleted ? 'active' : '')}>
+            <div
+              className={
+                "step " +
+                (steps[0].isActive || steps[0].isCompleted ? "active" : "")
+              }
+            >
               <span>1</span>
             </div>
-            <div className={"step " + (steps[1].isActive || steps[1].isCompleted ? 'active' : '')}>
+            <div
+              className={
+                "step " +
+                (steps[1].isActive || steps[1].isCompleted ? "active" : "")
+              }
+            >
               <span>2</span>
             </div>
-            <div className={"step " + (steps[2].isActive || steps[2].isCompleted ? 'active' : '')}>
+            <div
+              className={
+                "step " +
+                (steps[2].isActive || steps[2].isCompleted ? "active" : "")
+              }
+            >
               <span>3</span>
             </div>
-            <div className={"step " + (steps[3].isActive || steps[3].isCompleted ? 'active' : '')}>
+            <div
+              className={
+                "step " +
+                (steps[3].isActive || steps[3].isCompleted ? "active" : "")
+              }
+            >
               <span>4</span>
             </div>
           </div>
 
           <div>
-
             {steps[0].isActive && (
               <MainInfo
                 values={values}
                 errors={errors}
-                onChange={this.onChange}/>
+                onChange={this.onChange}
+              />
             )}
 
             {steps[1].isActive && (
@@ -270,7 +283,7 @@ export default class App extends React.Component {
                 getCitiesByCountry={this.getCitiesByCountry()}
                 onChangeSocials={this.onChangeSocials}
                 onChangeSocialUrl={this.onChangeSocialUrl}
-                />
+              />
             )}
             {steps[2].isActive && (
               <Avatar
@@ -279,25 +292,15 @@ export default class App extends React.Component {
                 onChangeAvatar={this.onChangeAvatar}
               />
             )}
-            {steps[3].isActive && (
-              <Result
-                values={values}
-              />
-            )}
+            {steps[3].isActive && <Result values={values} />}
           </div>
           <div className="">
             {activeStep !== 3 && (
               <div className="d-flex justify-content-around">
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={this.prevStep}>
+                <button type="button" className="btn" onClick={this.prevStep}>
                   Prev
                 </button>
-                <button
-                  type="button"
-                  className="btn"
-                  onClick={this.nextStep}>
+                <button type="button" className="btn" onClick={this.nextStep}>
                   Next
                 </button>
               </div>
@@ -307,7 +310,8 @@ export default class App extends React.Component {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={this.resetData}>
+                  onClick={this.resetData}
+                >
                   Reset
                 </button>
               </div>
@@ -315,10 +319,10 @@ export default class App extends React.Component {
           </div>
         </form>
       </div>
-    )
-  };
+    );
+  }
 
   componentDidMount() {
-    console.log()
+    console.log();
   }
 }

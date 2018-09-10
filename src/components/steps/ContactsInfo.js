@@ -1,12 +1,21 @@
-import React from 'react'
-import Field from '../Field'
-import Select from '../Select'
-import InputCheck from '../InputCheck'
+import React from "react";
+import Field from "../Field";
+import Select from "../Select";
+import InputCheck from "../InputCheck";
 
 import countries from "../../data/countries";
 
 const ContactsInfo = props => {
-  const {values, values:{socials}, errors, onChange, onChangeCountry, getCitiesByCountry, onChangeSocials, onChangeSocialUrl} = props;
+  const {
+    values,
+    values: { socials },
+    errors,
+    onChange,
+    onChangeCountry,
+    getCitiesByCountry,
+    onChangeSocials,
+    onChangeSocialUrl
+  } = props;
 
   console.log(values);
   return (
@@ -42,10 +51,11 @@ const ContactsInfo = props => {
         onChange={onChangeCountry}
       />
 
-      <Select
+      <SelectCity
         id="city"
         name="city"
         labelText="Chose city"
+        countryId={values.country}
         value={values.city}
         error={errors.city}
         options={getCitiesByCountry}
@@ -82,10 +92,9 @@ const ContactsInfo = props => {
         onInputChange={onChangeSocialUrl}
         error={errors.socials.linkedIn}
         value={socials.linkedIn.url}
-
       />
     </div>
-  )
+  );
 };
 
-export default ContactsInfo
+export default ContactsInfo;
