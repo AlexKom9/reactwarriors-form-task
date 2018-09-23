@@ -51,7 +51,7 @@ const ContactsInfo = props => {
         onChange={onChangeCountry}
       />
 
-      <SelectCity
+      <Select
         id="city"
         name="city"
         labelText="Chose city"

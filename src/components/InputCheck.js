@@ -26,7 +26,7 @@ export default class InputCheck extends React.Component {
               className="custom-control-input"
               id={id}
               name={name}
-              onChange={handleSelected}
+              onChange={this.handleSelected}
             />
             <label className="custom-control-label" htmlFor={id}>
               {checkBoxText}
