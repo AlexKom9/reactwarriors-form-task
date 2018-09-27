@@ -83,7 +83,7 @@ export default class App extends React.Component {
   }
 
   onChange = event => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const values = {
       ...this.state.values,
       [event.target.name]: event.target.value
@@ -93,16 +93,16 @@ export default class App extends React.Component {
     }));
   };
 
-  onChangeCountry = event => {
-    console.log(event.target.value);
-    const values = {
-      ...this.state.values,
-      country: event.target.value
-    };
-    this.setState({
-      values: values
-    });
-  };
+  // onChangeCountry = event => {
+  //   console.log(event.target.value);
+  //   const values = {
+  //     ...this.state.values,
+  //     country: event.target.value
+  //   };
+  //   this.setState({
+  //     values: values
+  //   });
+  // };
 
   // onChangeAvatar = event => {
   //   const file = event.target.files[0];
@@ -279,7 +279,6 @@ export default class App extends React.Component {
                 values={values}
                 errors={errors}
                 onChange={this.onChange}
-                onChangeCountry={this.onChangeCountry}
                 getCitiesByCountry={this.getCitiesByCountry()}
                 onChangeSocials={this.onChangeSocials}
                 onChangeSocialUrl={this.onChangeSocialUrl}
