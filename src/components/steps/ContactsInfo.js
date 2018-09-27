@@ -2,6 +2,7 @@ import React from "react";
 import Field from "../Field";
 import Select from "../Select";
 import InputCheck from "../InputCheck";
+import _ from "lodash";
 
 import countries from "../../data/countries";
 
@@ -11,13 +12,11 @@ const ContactsInfo = props => {
     values: { socials },
     errors,
     onChange,
-    onChangeCountry,
     getCitiesByCountry,
     onChangeSocials,
     onChangeSocialUrl
   } = props;
 
-  console.log(values);
   return (
     <div>
       <Field
@@ -48,7 +47,7 @@ const ContactsInfo = props => {
         value={values.country}
         error={errors.country}
         options={countries}
-        onChange={onChangeCountry}
+        onChange={onChange}
       />
 
       <Select
@@ -61,39 +60,14 @@ const ContactsInfo = props => {
         options={getCitiesByCountry}
         onChange={onChange}
       />
-      {/*
-      [{
-        isSelected: socials.facebook.selected
-        name: "facebook",
-        id="facebook"
-        checkBoxText="FaceBook"
-        onCheckChange={onChangeSocials}
-        onInputChange={onChangeSocialUrl}
-        error={errors.socials.facebook}
-        value={socials.facebook.url}
-      }].map(input => (
-        <InputCheck
-          {...input}
-        />
-        <InputCheck
-          isSelected={socials.facebook.selected}
-          name="facebook"
-          id="facebook"
-          checkBoxText="FaceBook"
-          onCheckChange={onChangeSocials}
-          onInputChange={onChangeSocialUrl}
-          error={errors.socials.facebook}
-          value={socials.facebook.url}
-      />
-      ))
-      */}
       <InputCheck
         isSelected={socials.facebook.selected}
         name="facebook"
         id="facebook"
         checkBoxText="FaceBook"
         onChange={onChangeSocialUrl}
-        error={errors.socials.facebook}
+        // error={errors.socials && errors.socials.facebook}
+        error={_.get(errors, 'socials.facebook')}
         value={socials.facebook.url}
       />
 
@@ -104,7 +78,7 @@ const ContactsInfo = props => {
         checkBoxText="Instagram"
         onCheckChange={onChangeSocials}
         onInputChange={onChangeSocialUrl}
-        error={errors.socials.instagram}
+        error={_.get(errors, 'socials.instagram')}
         value={socials.instagram.url}
       />
       <InputCheck
@@ -114,7 +88,7 @@ const ContactsInfo = props => {
         checkBoxText="LinkedIn"
         onCheckChange={onChangeSocials}
         onInputChange={onChangeSocialUrl}
-        error={errors.socials.linkedIn}
+        error={_.get(errors, 'socials.linkedIn')}
         value={socials.linkedIn.url}
       />
     </div>
