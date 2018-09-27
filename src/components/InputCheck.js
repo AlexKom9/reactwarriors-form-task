@@ -3,7 +3,6 @@ import React from "react";
 export default class InputCheck extends React.Component {
   constructor() {
     super();
-
     this.state = {
       isSelected: false
     };
@@ -13,6 +12,7 @@ export default class InputCheck extends React.Component {
     this.setState({
       isSelected: event.target.checked
     });
+    this.props.onChange();
   };
 
   render() {
