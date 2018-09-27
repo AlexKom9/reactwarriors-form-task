@@ -10,7 +10,7 @@ const Avatar = props => {
     reader.readAsDataURL(file);
 
     reader.onloadend = event => {
-      props.onChange({
+      onChange({
         target: {
           name: "avatar",
           value: event.target.result
